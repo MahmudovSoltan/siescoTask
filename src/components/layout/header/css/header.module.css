@@ -1,0 +1,48 @@
+.header_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+}
+.header_user {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgb(199, 199, 199);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.peofile_info {
+  position: absolute;
+  width: 150px;
+  bottom: -70px;
+  right: 0;
+  background-color: rgb(199, 199, 199);
+  padding: 10px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transform: translateY(-200%);
+  transition: all 0.3s ease-in-out;
+}
+.peofile_info_active {
+  transform: translateY(0);
+}
+.logout_btn {
+  font-size: 18px;
+  font-weight: normal;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.header_right{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

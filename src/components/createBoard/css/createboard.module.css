@@ -1,0 +1,12 @@
+.createboard_btn{
+    background-color: rgb(25, 180, 25);
+    color: white;
+    font-size: 14px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+.createboard_btn:hover{
+    background-color: rgb(12, 129, 12);
+}

@@ -1,0 +1,11 @@
+.buton{
+   padding: 8px 12px;
+   width: max-content;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 28px;
+  color: #ffffff;
+  margin-top: 20px;
+}
