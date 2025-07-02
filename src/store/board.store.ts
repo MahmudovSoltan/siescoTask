@@ -1,11 +1,7 @@
 import { create } from 'zustand';
+import type { BoardTypes } from '../types';
 
-interface BoardTypes {
-    stepperModal: boolean,
-    openStepperModal: () => void,
-    closeStepperModal: () => void
 
-}
 
 export const useBoardStore = create<BoardTypes>((set) => ({
     stepperModal: false,
@@ -14,6 +10,8 @@ export const useBoardStore = create<BoardTypes>((set) => ({
     },
     closeStepperModal: () => {
         set({ stepperModal: false })
+        console.log("click");
+        
     }
 
 }))

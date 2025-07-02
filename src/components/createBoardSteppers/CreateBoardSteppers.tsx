@@ -1,53 +1,134 @@
-import { useState } from 'react'
-import styles from './css/stepper.module.css'
-import Stepper1 from './Stepper1'
-import Stepper2 from './Stepper2'
-import Button from '../../ui/button'
-import StepperHeader from './StepperHeader'
-import { useBoardStore } from '../../store/board.store'
-import { useShallow } from 'zustand/shallow'
-const steppers = [
-    {
-        title: "Təşkilatın Məlumatları",
-        component: Stepper1
-    },
-    {
-        title: "Istifadəçi Məlumatları",
-        component: Stepper2
-    },
-]
-const CreateBoardSteppers = () => {
-    const [stepItem, setStepItem] = useState(0)
-    const CurrentComponent = steppers[stepItem].component
-    const { closeStepperModal } = useBoardStore(useShallow((state)=>({
-        closeStepperModal:state.closeStepperModal
-    })))
-    const nextStepperFunc = () => {
-        if (stepItem < steppers.length - 1) {
-            setStepItem(stepItem + 1)
-        }
-    }
-    const prevStepper = () => {
-        if (stepItem > 0) { setStepItem(stepItem - 1) }
-    }
-    return (
-        <div className={styles.stepper_container}>
-            <div className={styles.outlew}></div>
-            <div className={styles.stepper_content}>
-                <div  onClick={closeStepperModal}>X</div>
-                <StepperHeader />
-                <h2>
-                    {steppers[stepItem].title}
-                </h2>
-                <CurrentComponent />
-                <div className={styles.stepper_buttons}>
-                    <Button bgColor='#0D9CD8' onclick={prevStepper} title='Əvvələ' />
-                    <Button bgColor='#0D9CD8' onclick={nextStepperFunc} title='Növbəti' />
-                </div>
+import { useState } from 'react';
+import styles from "./css/stepper.module.css";          // istəsən köhnə stepper.css‑dən kopyala
+import Button from '../../ui/button';
+import { IoMdClose } from 'react-icons/io';
+import {
+  isValidEmail,
+  isValidName,
+  isValidPassword,
+} from '../../utils/validations';
+import { useUsersStore } from '../../store/users.store';
+import { useBoardStore } from '../../store/board.store';   // modalı bağlamaq üçün
 
-            </div>
-        </div>
-    )
+interface FormData {
+  name: string;
+  surname: string;
+  email: string;
+  password: string;
 }
 
-export default CreateBoardSteppers
+const initialState: FormData = {
+  name: '',
+  surname: '',
+  email: '',
+  password: '',           // default şifrə – dəyişdirilə bilər
+};
+
+interface ErrState {
+  name: boolean;
+  surname: boolean;
+  email: boolean;
+  password: boolean;
+}
+
+const CreateUserModal = () => {
+  const [data, setData] = useState<FormData>(initialState);
+  const [err, setErr] = useState<ErrState>({
+    name: false,
+    surname: false,
+    email: false,
+    password: false,
+  });
+
+  const { addUser ,users} = useUsersStore();
+  const { closeStepperModal } = useBoardStore();          // eyni bağlama düyməsi
+
+  const validate = () => {
+    const nextErr: ErrState = {
+      name: !isValidName(data.name),
+      surname: !isValidName(data.surname),
+      email: !isValidEmail(data.email),
+      password: !isValidPassword(data.password),
+    };
+    setErr(nextErr);
+    return !Object.values(nextErr).includes(true);
+  };
+  console.log(users);
+  
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validate()) {
+      addUser({ ...data });          // store‑a əlavə et
+      closeStepperModal();           // modalı bağla
+      setData(initialState);         // formu sıfırla
+    }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { name, value } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  return (
+    <div className={styles.modal_container}>
+      <div className={styles.outlet} onClick={closeStepperModal} />
+      <div className={styles.modal_content}>
+        <button onClick={closeStepperModal} className={styles.close_btn}>
+          <IoMdClose size={24} />
+        </button>
+
+        <h2 className={styles.title}>İstifadəçi yarat</h2>
+
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <input
+            name="name"
+            placeholder="Ad"
+            value={data.name}
+            onChange={handleChange}
+            className={`${styles.input} ${err.name ? styles.error : ''}`}
+          />
+          {err.name && <p className={styles.errorText}>Ad yalnız hərflərdən ibarət olmalıdır.</p>}
+
+          <input
+            name="surname"
+            placeholder="Soyad"
+            value={data.surname}
+            onChange={handleChange}
+            className={`${styles.input} ${err.surname ? styles.error : ''}`}
+          />
+          {err.surname && <p className={styles.errorText}>Soyad yalnız hərflərdən ibarət olmalıdır.</p>}
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={data.email}
+            onChange={handleChange}
+            className={`${styles.input} ${err.email ? styles.error : ''}`}
+          />
+          {err.email && <p className={styles.errorText}>Düzgün email daxil edin.</p>}
+
+          <input
+            type="text"
+            name="password"
+            placeholder="İlkin şifrə"
+            value={data.password}
+            onChange={handleChange}
+            className={`${styles.input} ${err.password ? styles.error : ''}`}
+          />
+          {err.password && (
+            <p className={styles.errorText}>
+              Şifrə ən azı 6 simvol, hərf və rəqəm kombinasiyası olmalıdır.
+            </p>
+          )}
+
+          <Button onclick={()=>{}} bgColor="#0D9CD8" title="Yarat" />
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default CreateUserModal;

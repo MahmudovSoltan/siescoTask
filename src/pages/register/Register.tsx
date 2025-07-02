@@ -1,137 +1,115 @@
+// pages/Register.tsx
 import React, { useState } from 'react';
-import styles from './css/registerForm.module.css';
-import { isValidEmail, isValidName, isValidPassword } from '../../utils/validations';
+import styles from '../login/css/login.module.css';
 import { useNavigate } from 'react-router-dom';
+import { isValidEmail, isValidPassword, isValidPhone } from '../../utils/validations';
 import { useAuthStore } from '../../store/authStore';
 import { useShallow } from 'zustand/shallow';
 
-interface RegisterFormData {
-  name: string;
-  surname: string;
+interface FormData {
+  organizationName: string;
+  phone: string;
+  address: string;
+  username: string;
   email: string;
   password: string;
 }
-interface RegisterErrData {
-  name: boolean;
-  surname: boolean;
+
+interface ErrorData {
+  organizationName: boolean;
+  phone: boolean;
+  address: boolean;
+  username: boolean;
   email: boolean;
   password: boolean;
 }
 
 const Register = () => {
-  const [data, setData] = useState<RegisterFormData>({
-    name: "",
-    surname: "",
-    email: "",
-    password: ""
+  const [data, setData] = useState<FormData>({
+    organizationName: '',
+    phone: '',
+    address: '',
+    username: '',
+    email: '',
+    password: '',
   });
-  const { register, user } = useAuthStore(
-    useShallow((state) => ({
-      register: state.register,
-      user: state.user
-    }))
-  );
-  const [error, setError] = useState<RegisterErrData>({
-    name: false,
-    surname: false,
+
+  const [error, setError] = useState<ErrorData>({
+    organizationName: false,
+    phone: false,
+    address: false,
+    username: false,
     email: false,
-    password: false
+    password: false,
   });
-  const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const { name, value } = e.currentTarget;
 
-    setData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const { registerAdmin } = useAuthStore(useShallow((state) => ({
+    registerAdmin: state.registerAdmin,
+  })));
 
-    setError(prev => ({
-      ...prev,
-      [name]: false
-    }));
-  };
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const validate = () => ({
+    organizationName: data.organizationName.trim() === '',
+    phone: !isValidPhone(data.phone),
+    address: data.address.trim() === '',
+    username: data.username.trim() === '',
+    email: !isValidEmail(data.email),
+    password: !isValidPassword(data.password),
+  });
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newError = {
-      name: !isValidName(data.name),
-      surname: !isValidName(data.surname),
-      email: !isValidEmail(data.email),
-      password: !isValidPassword(data.password)
-    };
-
+    const newError = validate();
     setError(newError);
 
     if (!Object.values(newError).includes(true)) {
-      register(data)
-      navigate("/")
+      const success = registerAdmin({
+        ...data,
+        name: data.username,
+        surname: '',
+        role: 'admin',
+      });
+      if (success) navigate('/dashboard');
     }
   };
 
+  const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const { name, value } = e.currentTarget;
+    setData((prev) => ({ ...prev, [name]: value }));
+  };
 
   return (
     <div className={styles.wrapper}>
       <form className={styles.form} onSubmit={handleSubmit}>
         <h2 className={styles.title}>Qeydiyyat</h2>
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Ad"
-          value={data.name}
-          onChange={handleChange}
-          className={`${styles.input} ${error.name && styles.error}`}
+        <input name="organizationName" placeholder="Təşkilatın adı" value={data.organizationName} onChange={handleChange}
+          className={`${styles.input} ${error.organizationName ? styles.error : ''}`} />
+        {error.organizationName && <p className={styles.errorText}>Təşkilatın adı daxil edilməlidir.</p>}
 
-        />
-        {
-          error.name && <p className={styles.errorText}>Ad mütləq yazılmalıdır</p>
-        }
-        <input
-          type="text"
-          name="surname"
-          placeholder="Soyad"
-          value={data.surname}
-          onChange={handleChange}
-          className={`${styles.input} ${error.surname && styles.error}`}
+        <input name="phone" placeholder="Telefon nömrəsi" value={data.phone} onChange={handleChange}
+          className={`${styles.input} ${error.phone ? styles.error : ''}`} />
+        {error.phone && <p className={styles.errorText}>Düzgün telefon nömrəsi daxil edin.</p>}
 
-        />
-        {
-          error.surname && <p className={styles.errorText}>Soyad mütləq yazılmalıdır</p>
-        }
-        <input
-          type="text"
-          name="email"
-          placeholder="Email"
-          value={data.email}
-          onChange={handleChange}
-          className={`${styles.input} ${error.email && styles.error}`}
+        <input name="address" placeholder="Ünvan" value={data.address} onChange={handleChange}
+          className={`${styles.input} ${error.address ? styles.error : ''}`} />
+        {error.address && <p className={styles.errorText}>Ünvan daxil edilməlidir.</p>}
 
-        />
-        {
-          error.email && <p className={styles.errorText}>Düzgün email adresi yazin zəhmət olmasa </p>
-        }
-        <input
-          type="password"
-          name="password"
-          placeholder="Şifrə"
-          value={data.password}
-          onChange={handleChange}
-          className={`${styles.input} ${error.password && styles.error}`}
+        <input name="username" placeholder="İstifadəçi adı" value={data.username} onChange={handleChange}
+          className={`${styles.input} ${error.username ? styles.error : ''}`} />
+        {error.username && <p className={styles.errorText}>İstifadəçi adı daxil edilməlidir.</p>}
 
-        />
-        {
-          error.password && <p className={styles.errorText}>Şifrə ən azı 6 simvoldan ibarət olmalı, hərf və rəqəm daxil etməlidir. Xüsusi simvollara icazə verilmir.
-          </p>
-        }
-        <div>
-          <p className={styles.auth_bottom}>
-            Hesabın varsa <span onClick={() => navigate("/")}>Daxil ol</span>
-          </p>
-        </div>
-        <button type="submit" className={styles.button}>
-          Qeydiyyatdan keç
-        </button>
+        <input type="email" name="email" placeholder="Email" value={data.email} onChange={handleChange}
+          className={`${styles.input} ${error.email ? styles.error : ''}`} />
+        {error.email && <p className={styles.errorText}>Düzgün email ünvanı daxil edin.</p>}
+
+        <input type="password" name="password" placeholder="Şifrə" value={data.password} onChange={handleChange}
+          className={`${styles.input} ${error.password ? styles.error : ''}`} />
+        {error.password && <p className={styles.errorText}>Şifrə ən azı 6 simvol, hərf və rəqəm daxil etməlidir.</p>}
+
+        <button type="submit" className={styles.button}>Qeydiyyatdan keç</button>
       </form>
     </div>
   );

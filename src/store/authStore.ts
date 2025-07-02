@@ -1,51 +1,84 @@
+// store/authStore.ts
 import { create } from 'zustand';
+import type { AuthState, User } from '../types';
 
-interface User {
-    name: string;
-    surname: string;
-    email: string;
-    password: string;
-}
-interface UserData {
-    email: string, password: string
-}
-interface AuthState {
-    user: User | null;
-    isLoggedIn: boolean;
-    login: (data:UserData) => boolean;
-    register: (user: User) => boolean;
-    logout: () => void;
-}
 
-const LOCAL_STORAGE_KEY = 'myAppUser';
+const LOCAL_STORAGE_KEY = 'myAppAdmin';
+const LOGGED_IN_USER_KEY = 'loggedInUser';
 
-export const useAuthStore = create<AuthState>((set) => ({
-    user: (() => {
-        const storedUser = localStorage.getItem(LOCAL_STORAGE_KEY);
-        return storedUser ? JSON.parse(storedUser) as User : null;
-    })(),
-    isLoggedIn: false,
+const defaultAdmin: User = {
+  name: 'Elvin',
+  surname: 'Memmedov',
+  email: 'admin@example.com',
+  password: '123456',
+  organizationName: 'MyCompany',
+  phone: '0501234567',
+  address: 'Baku, Azerbaijan',
+  role: 'admin',
+};
 
-    register: (user) => {
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(user));
-        set({ user, isLoggedIn: true });
-        return true;
+export const useAuthStore = create<AuthState>((set) => {
+  // Əgər localStorage-da admin yoxdursa, default admin yaz
+  if (!localStorage.getItem(LOCAL_STORAGE_KEY)) {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(defaultAdmin));
+  }
+
+  const storedUser = localStorage.getItem(LOGGED_IN_USER_KEY);
+
+  return {
+    user: storedUser ? JSON.parse(storedUser) : null,
+    isLoggedIn: !!storedUser,
+
+    registerAdmin: (admin) => {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(admin));
+      localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(admin));
+      set({ user: admin, isLoggedIn: true });
+      return true;
     },
 
     login: (data) => {
-        const storedUser = localStorage.getItem(LOCAL_STORAGE_KEY);
-        if (!storedUser) return false;
+      const adminStr = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const usersStr = localStorage.getItem("users");
 
-        const user: User = JSON.parse(storedUser);
-        if (user.email === data.email && user.password === data.password) {
-            set({ user, isLoggedIn: true });
-            return true;
+      let foundUser: User | null = null;
+
+      // Admin yoxlaması
+      if (adminStr) {
+        const admin: User = JSON.parse(adminStr);
+        const isAdminMatch = admin.email === data.email && admin.password === data.password;
+
+        if (isAdminMatch) {
+          foundUser = admin;
         }
+      }
 
-        return false;
+      // Əgər admin tapılmadısa, user-lərdən yoxla
+      if (!foundUser && usersStr) {
+        const users: User[] = JSON.parse(usersStr);
+
+        const matchedUser = users.find(
+          (u) => u.email === data.email && u.password === data.password
+        );
+
+        if (matchedUser) {
+          foundUser = matchedUser;
+        }
+      }
+
+      // Əgər hər hansı user tapılıbsa — login et
+      if (foundUser) {
+        localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(foundUser));
+        set({ user: foundUser, isLoggedIn: true });
+        return true;
+      }
+
+      return false;
     },
+
 
     logout: () => {
-        set({ user: null, isLoggedIn: false });
+      localStorage.removeItem(LOGGED_IN_USER_KEY);
+      set({ user: null, isLoggedIn: false });
     },
-}));
+  };
+});

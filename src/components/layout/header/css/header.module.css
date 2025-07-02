@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 30px;
+  border-bottom: 1px solid gray;
 }
 .header_user {
   width: 30px;
@@ -18,7 +19,7 @@
 .peofile_info {
   position: absolute;
   width: 150px;
-  bottom: -70px;
+  top: 50px;
   right: 0;
   background-color: rgb(199, 199, 199);
   padding: 10px;
@@ -41,8 +42,8 @@
   justify-content: center;
   gap: 10px;
 }
-.header_right{
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.header_right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
