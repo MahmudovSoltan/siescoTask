@@ -20,5 +20,12 @@ export const useUsersStore = create<UsersState>((set, get) => ({
   },
   closeUserlistModal: () => {
     set({ userListModal: false })
+  },
+  deleteUser: (userId: number | null) => {
+    const users = get().users
+    const newUsers = [...users]
+    const filterUserlist = newUsers.filter((newUser) => newUser.id !== userId)
+    localStorage.setItem("users", JSON.stringify(filterUserlist));
+    set({ users: filterUserlist })
   }
 }));

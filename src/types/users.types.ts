@@ -13,5 +13,6 @@ export interface UsersState {
   userListModal:boolean,
   closeUserlistModal:()=>void,
   openUserlistModal:()=>void,
+  deleteUser:(userId:number|null)=>void
 
 }

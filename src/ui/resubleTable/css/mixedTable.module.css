@@ -54,7 +54,7 @@ td {
   top: 100%;
   margin-top: 4px;
   list-style: none;
-  padding: 6px 0;
+  padding: 0px 0;
   background: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 6px;
@@ -72,6 +72,13 @@ td {
   font-size: 14px;
   cursor: pointer;
   color: #111827;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all .3s ease-in-out;
+}
+.dropdown li button:hover{
+    background: #f0f0f0;
 }
 .dropdown_container {
   position: relative;
@@ -89,8 +96,9 @@ td {
   border-radius: "4px";
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 99;
+  border-radius: 6px;
 }
-.dropdown_btn{
+.dropdown_btn {
   cursor: pointer;
   text-align: left;
 }
@@ -99,4 +107,23 @@ td {
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+  transition: all .3s ease-in-out;
+  border-radius: 6px;
+}
+.dropdown_options:hover{
+  background: #f0f0f0;
+}
+.dropdown_options button {
+  width: max-content;
+  cursor: pointer;
+  transition: all 0.3s ease;
+    color: red;
+}
+.dropdown_options button:hover {
+  color: rgb(173, 8, 8);
+  transform: scale(1.1);
 }

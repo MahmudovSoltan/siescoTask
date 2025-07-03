@@ -1,4 +1,7 @@
 /* Reset CSS */
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
 *,
 *::before,
 *::after {
@@ -14,6 +17,7 @@ body {
   background-color: var(--BacgrounColorBlack);
   max-width: 1440px;
   margin: 0 auto;
+  font-family: "Roboto", sans-serif;
 }
 
 /* Block-level elements */
@@ -51,17 +55,19 @@ img {
 }
 
 /* HTML5 form elements reset */
-button, input, select, textarea {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    color: inherit;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    width: 100%;
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
 }
-
 
 /* Table elements */
 table {
@@ -82,26 +88,22 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-
 input:-webkit-autofill {
   background-color: transparent !important;
   -webkit-box-shadow: 0 0 0px 1000px var(--TEXT-color_8) inset !important;
   color: inherit !important;
-  }
-  input:-webkit-autofill::first-line {
+}
+input:-webkit-autofill::first-line {
   color: inherit !important;
-  }
+}
 
+.container {
+  max-width: 1440px;
+  padding: 0 30px;
+  margin: 0 auto;
+}
 
-  .container{
-    max-width: 1440px;
-    padding: 0 30px;
-    margin: 0 auto;
-  }
-
-
-
-  :root {
+:root {
   /* Backgrounds */
   --background-main: #f8f8f6;
   --background-white: #ffffff;

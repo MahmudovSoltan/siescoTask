@@ -2,7 +2,6 @@ import styles from './css/logo.module.css'
 const Logo = () => {
     const storedLogo = localStorage.getItem("myAppAdmin");
     const comapnyLogo = storedLogo ? JSON.parse(storedLogo) : null;
-    console.log(comapnyLogo);
 
     return (
         <div>

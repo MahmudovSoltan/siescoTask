@@ -6,11 +6,12 @@ import CreateUserModal from "../../components/modals/userModal/CreateUser"
 
 
 const Users = () => {
-  const { users, userListModal, openUserlistModal, closeUserlistModal } = useUsersStore(useShallow((state) => ({
+  const { users, userListModal, openUserlistModal,deleteUserFunc } = useUsersStore(useShallow((state) => ({
     users: state.users,
     userListModal: state.userListModal,
     openUserlistModal: state.openUserlistModal,
-    closeUserlistModal: state.closeUserlistModal
+    closeUserlistModal: state.closeUserlistModal,
+    deleteUserFunc:state.deleteUser
 
   })))
 
@@ -25,9 +26,8 @@ const Users = () => {
 
   };
 
-  const deleteUser = (user) => {
-    console.log(user);
-
+  const deleteUser = (userId:number) => {
+      deleteUserFunc(userId)
   };
 
   const resetPassword = (user) => {
@@ -36,6 +36,7 @@ const Users = () => {
   return (
     <>
       <div>
+       
         <TableHeader title="Users" onclick={openUserlistModal} />
         <ReusbleTable data={users} onActions={{
           assign: assignTask,

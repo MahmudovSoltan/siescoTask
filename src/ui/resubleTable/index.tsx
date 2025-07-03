@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import styles from './css/mixedTable.module.css';
+import { FaChevronDown } from 'react-icons/fa';
+import { MdDelete } from 'react-icons/md';
 
 export default function ReusbleTable({ data, onActions, type }) {
   const [menuRowId, setMenuRowId] = useState(null);
@@ -14,7 +16,6 @@ export default function ReusbleTable({ data, onActions, type }) {
   const toggleMenu = (id) => {
     setMenuRowId((prev) => (prev === id ? null : id));
   };
-  console.log(data);
 
   const renderColumns = (row) => {
     if (type === 'user') {
@@ -32,13 +33,21 @@ export default function ReusbleTable({ data, onActions, type }) {
           <td>{row.title}</td>
           <td>{row.description}</td>
           <td>{new Date(row.deadline).toLocaleDateString()}</td>
+          <td>{row?.status}</td>
           <td>
             <div className={styles.dropdown_container}>
               <button
                 onClick={() => toggleDropdown(row.id)}
-                  className={styles.dropdown_btn}
+                className={styles.dropdown_btn}
               >
-                users
+                users <FaChevronDown
+                  size={10}
+                  style={{
+                    transition: 'transform 0.3s ease',
+                    transform: openDropdownId === row.id ? 'rotate(180deg)' : 'rotate(0deg)',
+                  }}
+                />
+
               </button>
 
               {openDropdownId === row.id && ( // Sadece ilgili satırın dropdown'u açık
@@ -51,7 +60,8 @@ export default function ReusbleTable({ data, onActions, type }) {
                       key={index}
                       className={styles.dropdown_options}
                     >
-                      {option.name}
+                      {option.name} <button onClick={() => onActions.deleteUser(option.id, row.id)}><MdDelete />
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -81,6 +91,7 @@ export default function ReusbleTable({ data, onActions, type }) {
           <th>Title</th>
           <th>Description</th>
           <th>Deadline</th>
+          <th>Status</th>
           <th>Users</th>
           <th>Actions</th>
         </tr>
@@ -105,14 +116,14 @@ export default function ReusbleTable({ data, onActions, type }) {
                     {type === 'tasks' && (
                       <>
                         <li><button onClick={() => onActions.assign(row)}>Assign</button></li>
-                        <li><button onClick={() => onActions.changeStatus(row, 'inProgress')}>To In Progress</button></li>
-                        <li><button onClick={() => onActions.changeStatus(row, 'done')}>To Done</button></li>
+                        <li><button onClick={() => onActions.deleteTask(row.id)}>Delete <MdDelete />
+                        </button></li>
                       </>
                     )}
                     {type === 'user' && (
                       <>
-                        <li><button onClick={() => onActions.resetPassword(row)}>Reset Password</button></li>
-                        <li><button onClick={() => onActions.deleteUser(row)}>Delete User</button></li>
+                        <li><button onClick={() => { }}>Assign</button></li>
+                        <li><button onClick={() => onActions.deleteUser(row.id)}>Delete User <MdDelete /></button></li>
                       </>
                     )}
                   </ul>
