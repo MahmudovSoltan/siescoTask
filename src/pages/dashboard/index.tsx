@@ -1,23 +1,16 @@
-import { useShallow } from "zustand/shallow"
 import DashBoardBody from "../../components/dashboard/DashBoardBody"
-import Header from "../../components/layout/header/Header"
-import TaskModal from "../../components/modals/taskModal/TaskModal"
-import { useTaskStore } from "../../store/task.store"
+import Aside from "../../components/layout/aside/Aside"
+import { useState } from "react"
 const Dashboard = () => {
-    const {taskModal,onSave,closeModal}= useTaskStore(useShallow((state)=>({
-        taskModal:state.taskModal,
-        closeModal:state.closeTaskModal,
-        onSave:state.addtasks
-    })))
-
+    const [currentTab,setCurentTab]= useState<string>("Users")
+  
+    const handleChooseTab = (tab:string)=>{
+      setCurentTab(tab)
+    }
     return (
         <div>
-            <Header />
-            <DashBoardBody />
-            {
-                taskModal &&   <TaskModal onClose={closeModal} onSave={onSave}/>
-            }
-           
+            <Aside handleChooseTab={handleChooseTab} currentTab={currentTab}/>
+            <DashBoardBody currentTab={currentTab} />
         </div>
     )
 }

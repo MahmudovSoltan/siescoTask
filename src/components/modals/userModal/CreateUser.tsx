@@ -1,14 +1,10 @@
 import { useState } from 'react';
-import styles from "./css/stepper.module.css";          // istəsən köhnə stepper.css‑dən kopyala
-import Button from '../../ui/button';
+import styles from "./css/createuser.module.css";          // istəsən köhnə stepper.css‑dən kopyala
 import { IoMdClose } from 'react-icons/io';
-import {
-  isValidEmail,
-  isValidName,
-  isValidPassword,
-} from '../../utils/validations';
-import { useUsersStore } from '../../store/users.store';
-import { useBoardStore } from '../../store/board.store';   // modalı bağlamaq üçün
+import { useUsersStore } from '../../../store/users.store';
+import { isValidEmail, isValidName, isValidPassword } from '../../../utils/validations';
+import Button from '../../../ui/button';
+// modalı bağlamaq üçün
 
 interface FormData {
   name: string;
@@ -40,8 +36,7 @@ const CreateUserModal = () => {
     password: false,
   });
 
-  const { addUser ,users} = useUsersStore();
-  const { closeStepperModal } = useBoardStore();          // eyni bağlama düyməsi
+  const { addUser ,users,closeUserlistModal} = useUsersStore();
 
   const validate = () => {
     const nextErr: ErrState = {
@@ -59,7 +54,7 @@ const CreateUserModal = () => {
     e.preventDefault();
     if (validate()) {
       addUser({ ...data });          // store‑a əlavə et
-      closeStepperModal();           // modalı bağla
+      closeUserlistModal();           // modalı bağla
       setData(initialState);         // formu sıfırla
     }
   };
@@ -73,9 +68,9 @@ const CreateUserModal = () => {
 
   return (
     <div className={styles.modal_container}>
-      <div className={styles.outlet} onClick={closeStepperModal} />
+      <div className={styles.outlet} onClick={closeUserlistModal} />
       <div className={styles.modal_content}>
-        <button onClick={closeStepperModal} className={styles.close_btn}>
+        <button onClick={closeUserlistModal} className={styles.close_btn}>
           <IoMdClose size={24} />
         </button>
 

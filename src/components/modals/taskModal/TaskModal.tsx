@@ -4,8 +4,8 @@ import { useUsersStore } from '../../../store/users.store';
 import type { UserData } from '../../../types';
 
 interface Props {
-  onClose: () => void;
-  onSave: (task: TaskData) => void;
+  onClose?: () => void;
+  onSave?: (task: Omit<TaskData, "id">) => void;
 }
 
 export type TaskStatus = 'todo' | 'inProgress' | 'done';
@@ -54,8 +54,12 @@ const TaskModal: React.FC<Props> = ({ onClose, onSave }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(form);
-    onClose();
+    if (onSave) {
+      onSave(form);
+    }
+    if (onClose) {
+      onClose();
+    }
   };
 
   return (
@@ -88,7 +92,7 @@ const TaskModal: React.FC<Props> = ({ onClose, onSave }) => {
             required
           />
 
-          <select name="status" value={form.status} onChange={handleChange}>
+          <select name="status" disabled value={form.status} onChange={handleChange}>
             <option value="todo">To Do</option>
             <option value="inProgress">In Progress</option>
             <option value="done">Done</option>

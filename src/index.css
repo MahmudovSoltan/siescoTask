@@ -98,3 +98,36 @@ input:-webkit-autofill {
     padding: 0 30px;
     margin: 0 auto;
   }
+
+
+
+  :root {
+  /* Backgrounds */
+  --background-main: #f8f8f6;
+  --background-white: #ffffff;
+  --background-highlight: #f6e4b4; /* Arlene McCoy üçün seçilmiş sətrin fonu */
+
+  /* Text */
+  --text-primary: #1e1e1e;
+  --text-muted: #6b7280;
+
+  /* Border & Lines */
+  --border-light: #e5e7eb;
+
+  /* Button / Icon colors */
+  --icon-eye-color: #4b5563;
+  --download-button-bg: #f3e8d2;
+
+  /* Sidebar */
+  --sidebar-bg: #ffffff;
+  --sidebar-text: #1f2937;
+  --sidebar-icon: #6b7280;
+
+  /* Table */
+  --table-header-bg: #ffffff;
+  --table-row-hover: #fdf6e3;
+
+  /* Accents */
+  --accent-green: #0f766e;
+  --notification-badge-bg: #c6f6d5;
+}

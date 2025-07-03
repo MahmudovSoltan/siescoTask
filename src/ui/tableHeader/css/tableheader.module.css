@@ -1,0 +1,12 @@
+.table_header_contianer{
+
+   padding: 50px 20px 10px 320px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+.table_header_text{
+    font-size: 24px;
+
+}
