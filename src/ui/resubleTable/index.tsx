@@ -122,7 +122,7 @@ export default function ReusbleTable({ data, onActions, type }) {
                     )}
                     {type === 'user' && (
                       <>
-                        <li><button onClick={() => { }}>Assign</button></li>
+                        <li><button onClick={() => onActions.assign(row)}>Assign</button></li>
                         <li><button onClick={() => onActions.deleteUser(row.id)}>Delete User <MdDelete /></button></li>
                       </>
                     )}

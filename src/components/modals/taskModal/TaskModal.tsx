@@ -1,21 +1,27 @@
 import React, { useState } from 'react';
 import styles from './TaskModal.module.css';
 import { useUsersStore } from '../../../store/users.store';
-import type { UserData } from '../../../types';
+import type { TaskData, UserData } from '../../../types';
+import ReusableModal from '../../../ui/reusbleModal';
+import {
+  isValidTitle,
+  isValidDescription,
+  isValidDeadline,
+} from '../../../utils/validations';   // ✅ yeni import
+import { toast } from 'react-toastify';
+
+/* -- unchanged types & props ... -- */
 
 interface Props {
   onClose?: () => void;
-  onSave?: (task: Omit<TaskData, "id">) => void;
+  onSave?: (task: TaskData) => void;
 }
 
-export type TaskStatus = 'todo' | 'inProgress' | 'done';
-
-export interface TaskData {
-  title: string;
-  description: string;
-  deadline: string;
-  status: TaskStatus;
-  users: UserData[];
+interface ErrState {
+  title: boolean;
+  description: boolean;
+  deadline: boolean;
+  users: boolean;
 }
 
 const TaskModal: React.FC<Props> = ({ onClose, onSave }) => {
@@ -25,109 +31,114 @@ const TaskModal: React.FC<Props> = ({ onClose, onSave }) => {
     title: '',
     description: '',
     deadline: '',
-    status: 'todo',
-    users: []
+    statusu: 'todo',
+    users: [],
   });
 
+  const [err, setErr] = useState<ErrState>({
+    title: false,
+    description: false,
+    deadline: false,
+    users: false,
+  });
+
+  /* ---------- Helpers ---------- */
+  const validate = () => {
+    const nextErr: ErrState = {
+      title: !isValidTitle(form.title),
+      description: !isValidDescription(form.description),
+      deadline: !isValidDeadline(form.deadline),
+      users: form.users.length === 0,
+    };
+    setErr(nextErr);
+    return !Object.values(nextErr).includes(true);
+  };
+
   const toggleUserSelection = (user: UserData) => {
-    setForm((prev) => {
-      const isSelected = prev.users.some(u => u.id === user.id);
-      let newUsers;
-      if (isSelected) {
-        // Seçiləni çıxar
-        newUsers = prev.users.filter(u => u.id !== user.id);
-      } else {
-        // Seçimə əlavə et
-        newUsers = [...prev.users, user];
-      }
-      return {
-        ...prev,
-        users: newUsers,
-      };
+    setForm(prev => {
+      const exists = prev.users.some(u => u.id === user.id);
+      const newUsers = exists
+        ? prev.users.filter(u => u.id !== user.id)
+        : [...prev.users, user];
+      return { ...prev, users: newUsers };
     });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (onSave) {
-      onSave(form);
-    }
-    if (onClose) {
-      onClose();
-    }
+    if (!validate()) return;
+
+    onSave?.(form);
+    onClose?.();
+    toast.success("Successful Add")
   };
 
+  /* ---------- Render ---------- */
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
-        <h2>Yeni Tapşırıq</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="title"
-            placeholder="Başlıq"
-            value={form.title}
-            onChange={handleChange}
-            required
-          />
+    <ReusableModal title="Yeni Tapşırıq" onClose={onClose!} handleSave={handleSubmit}>
+      <form className={styles.form}>
 
-          <textarea
-            name="description"
-            placeholder="Təsviri yazın..."
-            value={form.description}
-            onChange={handleChange}
-            required
-          />
+        <input
+          className={err.title ? styles.error : ''}
+          type="text"
+          name="title"
+          placeholder="Başlıq"
+          value={form.title}
+          onChange={handleChange}
+        />
+        {err.title && <p className={styles.errorText}>Başlıq 3–100 simvol olmalıdır.</p>}
 
-          <input
-            type="date"
-            name="deadline"
-            value={form.deadline}
-            onChange={handleChange}
-            required
-          />
+        <textarea
+          className={err.description ? styles.error : ''}
+          name="description"
+          placeholder="Təsviri yazın..."
+          value={form.description}
+          onChange={handleChange}
+        />
+        {err.description && (
+          <p className={styles.errorText}>Təsvir ən azı 10 simvol olmalıdır.</p>
+        )}
 
-          <select name="status" disabled value={form.status} onChange={handleChange}>
-            <option value="todo">To Do</option>
-            <option value="inProgress">In Progress</option>
-            <option value="done">Done</option>
-          </select>
+        <input
+          className={err.deadline ? styles.error : ''}
+          type="date"
+          name="deadline"
+          value={form.deadline}
+          onChange={handleChange}
+        />
+        {err.deadline && (
+          <p className={styles.errorText}>Keçmiş tarix seçilə bilməz.</p>
+        )}
 
-          <div className={styles.usersSelection}>
-            <p>İstifadəçiləri seçin:</p>
-            <div className={styles.usersList}>
-              {users.map(user => {
-                const isSelected = form.users.some(u => u.id === user.id);
-                return (
-                  <div
-                    key={user.id}
-                    className={`${styles.userItem} ${isSelected ? styles.selected : ''}`}
-                    onClick={() => toggleUserSelection(user)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') toggleUserSelection(user);
-                    }}
-                  >
-                    {user.name} {user.surname}
-                  </div>
-                );
-              })}
-            </div>
+        <div className={styles.usersSelection}>
+          <p>İstifadəçiləri seçin:</p>
+          <div className={styles.usersList}>
+            {users.map(u => {
+              const isSelected = form.users.some(sel => sel.id === u.id);
+              return (
+                <div
+                  key={u.id}
+                  className={`${styles.userItem} ${isSelected ? styles.selected : ''}`}
+                  onClick={() => toggleUserSelection(u)}
+                >
+                  {u.name} {u.surname}
+                </div>
+              );
+            })}
           </div>
-
-          <div className={styles.actions}>
-            <button type="submit">Yadda saxla</button>
-            <button type="button" onClick={onClose} className={styles.cancelBtn}>Bağla</button>
-          </div>
-        </form>
-      </div>
-    </div>
+          {err.users && (
+            <p className={styles.errorText}>Ən azı bir istifadəçi seçilməlidir.</p>
+          )}
+        </div>
+      </form>
+    </ReusableModal>
   );
 };
 

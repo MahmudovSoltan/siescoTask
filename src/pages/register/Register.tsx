@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { isValidEmail, isValidPassword, isValidPhone } from '../../utils/validations';
 import { useAuthStore } from '../../store/authStore';
 import { useShallow } from 'zustand/shallow';
+import { toast } from 'react-toastify';
 
 interface FormData {
   organizationName: string;
@@ -71,7 +72,12 @@ const Register = () => {
         surname: '',
         role: 'admin',
       });
-      if (success) navigate('/dashboard');
+      if (success) {
+        navigate('/dashboard')
+        toast.success("Succses register")
+      } else {
+        toast.error("Something is wrong")
+      }
     }
   };
 

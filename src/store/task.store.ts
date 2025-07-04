@@ -12,6 +12,10 @@ export const useTaskStore = create<TaskState>((set, get) => ({
         open: false,
         taskId: null,
     },
+    setTasks: (tasks: TaskData[]) => {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        set({ tasks });
+    },
     addtasks: (u) => {
         const newtask: TaskData = { ...u, id: Date.now() };
         const updatedTask = [...get().tasks, newtask,];
@@ -72,6 +76,6 @@ export const useTaskStore = create<TaskState>((set, get) => ({
         localStorage.setItem("tasks", JSON.stringify(filetrTask));
         set({ tasks: filetrTask });
     }
-
+    ,
 
 }));

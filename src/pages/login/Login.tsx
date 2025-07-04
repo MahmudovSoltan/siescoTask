@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { isValidEmail, isValidPassword } from '../../utils/validations';
 import { useAuthStore } from '../../store/authStore';
 import { useShallow } from 'zustand/shallow';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [data, setData] = useState({ email: '', password: '' });
@@ -25,7 +26,12 @@ const Login = () => {
 
     if (!Object.values(newError).includes(true)) {
       const success = login(data);
-      if (success) navigate('/dashboard');
+      if (success) {
+        navigate('/dashboard')
+        toast.success("Succses login")
+      } else {
+        toast.error("Something is wrong")
+      }
     }
   };
 

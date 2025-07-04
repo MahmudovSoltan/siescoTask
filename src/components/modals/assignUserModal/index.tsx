@@ -1,42 +1,55 @@
+// components/modals/assignUserModal.tsx
 import { useState } from "react";
-import { useUsersStore } from "../../../store/users.store";
-import type { UserData } from "../../../types";
 import styles from "./css/assignUserModal.module.css";
-import { useTaskStore } from "../../../store/task.store";
-import { useShallow } from "zustand/shallow";
+import { toast } from "react-toastify";
 
-const AssignUserModal = ({title,onclose,datas,items,onSave}) => {
-  const [selectedUsers, setSelectedUsers] = useState<UserData[]>([]);
+interface AssignUserModalProps<TItem> {
+  title: string;
+  onclose: () => void;
+  contextId: number | null;
+  items: TItem[];
+  alreadyLinked: (item: TItem, ctxId: number | null) => boolean;
+  onSave: (ctxId: number | null, selectedItems: TItem[]) => void;
+  getItemKey: (item: TItem) => number;
+  getItemTitle: (item: TItem) => string;
+  getItemSubtitle: (item: TItem) => string;
+}
+
+const AssignUserModal = <TItem,>({
+  title,
+  onclose,
+  contextId,
+  items,
+  alreadyLinked,
+  onSave,
+  getItemKey,
+  getItemTitle,
+  getItemSubtitle,
+}: AssignUserModalProps<TItem>) => {
+  const [selectedItems, setSelectedItems] = useState<TItem[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { users } = useUsersStore();
-  const {  closeAssignModal, assignTaskid, tasks } =
-    useTaskStore(
-      useShallow((state) => ({
-        closeAssignModal: state.closeAssignModal,
-        assignTaskid: state.assignUserModal.taskId,
-        tasks: state.tasks,
-      }))
-    );
-
-  const task = tasks.find((t) => t.id === assignTaskid);
-  const assignedUserIds = task?.users.map((u) => u.id) || [];
-
-  const toggleUserSelection = (user: UserData) => {
-    setSelectedUsers((prev) =>
-      prev.some((u) => u.id === user.id)
-        ? prev.filter((u) => u.id !== user.id)
-        : [...prev, user]
+  const toggleSelection = (item: TItem) => {
+    setSelectedItems((prev) =>
+      prev.some((i) => getItemKey(i) === getItemKey(item))
+        ? prev.filter((i) => getItemKey(i) !== getItemKey(item))
+        : [...prev, item]
     );
   };
 
-  const isSelected = (userId: number) =>
-    selectedUsers.some((u) => u.id === userId);
+  const isSelected = (id: number) =>
+    selectedItems.some((i) => getItemKey(i) === id);
 
-  const filteredUsers = users.filter((user) =>user.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  const filteredItems = items.filter(
+    (item) =>
+      !alreadyLinked(item, contextId) &&
+      getItemTitle(item).toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleSave = () => {
-    onSave(assignTaskid, selectedUsers);
+
+    onSave(contextId, selectedItems);
+    toast.success("Successful Add")
     onclose();
   };
 
@@ -47,15 +60,14 @@ const AssignUserModal = ({title,onclose,datas,items,onSave}) => {
           <h2 className={styles.modalTitle}>{title}</h2>
         </div>
 
-        {/* Seçilmiş istifadəçilər */}
         <div className={styles.selectedUsers}>
-          {selectedUsers.map((user) => (
+          {selectedItems.map((item) => (
             <button
-              key={user.id}
+              key={getItemKey(item)}
               className={styles.selectedUserItem}
-              onClick={() => toggleUserSelection(user)}
+              onClick={() => toggleSelection(item)}
             >
-              {user.name}
+              {getItemTitle(item)}
               <span className={styles.removeUser}>×</span>
             </button>
           ))}
@@ -63,27 +75,25 @@ const AssignUserModal = ({title,onclose,datas,items,onSave}) => {
 
         <input
           type="text"
-          placeholder="İstifadəçi axtar..."
+          placeholder="Axtar..."
           className={styles.searchInput}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
 
         <ul className={styles.usersList}>
-          {filteredUsers.map((user) => {
-            const disabled = assignedUserIds.includes(user.id);
-            const selected = isSelected(user.id);
+          {filteredItems.map((item) => {
+            const selected = isSelected(getItemKey(item));
 
             return (
               <li
-                key={user.id}
+                key={getItemKey(item)}
                 className={`${styles.userItem} ${selected ? styles.selected : ""}`}
-                style={{ display: disabled ? "none" : "flex" }}
               >
-                <button disabled={disabled} onClick={() => toggleUserSelection(user)}>
+                <button onClick={() => toggleSelection(item)}>
                   <div className={styles.userInfo}>
-                    <span className={styles.userName}>{user.name}</span>
-                    <span className={styles.userEmail}>{user.email}</span>
+                    <span className={styles.userName}>{getItemTitle(item)}</span>
+                    <span className={styles.userEmail}>{getItemSubtitle(item)}</span>
                   </div>
                 </button>
                 {selected && <span className={styles.checkmark}>✓</span>}
@@ -93,7 +103,7 @@ const AssignUserModal = ({title,onclose,datas,items,onSave}) => {
         </ul>
 
         <div className={styles.modalFooter}>
-          <button onClick={closeAssignModal} className={styles.cancelButton}>
+          <button onClick={onclose} className={styles.cancelButton}>
             Bağla
           </button>
           <button onClick={handleSave} className={styles.submitButton}>
