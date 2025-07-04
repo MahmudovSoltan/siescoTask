@@ -2,7 +2,11 @@ import Logo from '../../logo/Logo'
 import AsideBottom from './AsideBottom'
 import AsideLinks from './AsideLinks'
 import styles from './css/aside.module.css'
-const Aside = ({handleChooseTab,currentTab}) => {
+export interface AsidePropsTYpe{
+    handleChooseTab:(tab: string)=>void,
+    currentTab:string
+}
+const Aside = ({handleChooseTab,currentTab}:AsidePropsTYpe) => {
     return (
         <aside className={styles.aside_container} >
             <Logo />

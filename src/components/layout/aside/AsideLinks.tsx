@@ -1,15 +1,20 @@
 import { FiUsers } from "react-icons/fi"
 import { LuNetwork } from "react-icons/lu"
 import styles from './css/aside.module.css'
-const AsideLinks = ({ handleChooseTab, currentTab }) => {
+import type { AsidePropsTYpe } from "./Aside"
+const AsideLinks = ({ handleChooseTab, currentTab }: AsidePropsTYpe) => {
+    const handleChooseTabFunc = (tab: string) => {
+        localStorage.setItem("tab", tab)
+        handleChooseTab(tab)
+    }
     return (
         <ul className={styles.aside_links}>
-            <li onClick={() => handleChooseTab("Tasks")} className={`${currentTab === "Tasks" && styles.active_link}`}>
+            <li onClick={() => handleChooseTabFunc("Tasks")} className={`${currentTab === "Tasks" && styles.active_link}`}>
                 <LuNetwork size={20} />
-                <p>   Tasks</p>
+                <p>Tasks</p>
             </li>
-            <li onClick={() => handleChooseTab("Users")} className={`${currentTab === "Users" && styles.active_link}`}>
-                <FiUsers size={20} />    <p>Useers</p>
+            <li onClick={() => handleChooseTabFunc("Users")} className={`${currentTab === "Users" && styles.active_link}`}>
+                <FiUsers size={20} /><p>Useers</p>
             </li>
         </ul>
     )
