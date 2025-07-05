@@ -11,7 +11,6 @@ import { getUserEmail, getUserId, getUserName, isUserAssignedToTask } from "../.
 import EmptyState from "../../ui/emptyState/EmptyState";
 import Paginations from "../../ui/paginate";
 import { useState } from "react";
-import styles from './css/task.module.css'
 const Tasks = () => {
     const [currentPage, setCurrentPage] = useState<number>(0);
     const itemsPerPage = 10;

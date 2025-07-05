@@ -1,6 +1,5 @@
 import { useShallow } from "zustand/shallow";
 import { useAuthStore } from "../../../store/authStore";
-import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./css/aside.module.css";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -14,8 +13,6 @@ const AsideBottom = () => {
     }))
   );
 
-  const menuRef = useRef<HTMLButtonElement>(null);
-  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
   const { name = "", surname = "", role = "" } = user || {};
@@ -26,21 +23,11 @@ const AsideBottom = () => {
     navigate("/");
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+ 
 
   return (
     <div className={styles.bottom_container}>
       <button
-        ref={menuRef}
-        onClick={() => setIsOpen((prev) => !prev)}
         className={styles.profileBtn}
       >
         <div className={styles.avatar}>
