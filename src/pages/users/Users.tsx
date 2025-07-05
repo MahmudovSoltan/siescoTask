@@ -82,18 +82,21 @@ const Users = () => {
         <TableHeader title="Users" onclick={openUserlistModal} />
         {
           users.length > 0 ?
-            <ReusbleTable
-              data={currentItems}
-              onActions={{
-                assign: assignTask,
-                changeStatus: changeTaskStatus,
-                deleteUser: deleteUser,
-                deleteTask: () => { }
-              }}
-              type={"user"}
-            /> : <EmptyState message="Not Yet User" img_rl="https://static.vecteezy.com/system/resources/previews/005/073/071/non_2x/user-not-found-account-not-register-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-icon-vector.jpg" />
+            <>
+              <ReusbleTable
+                data={currentItems}
+                onActions={{
+                  assign: assignTask,
+                  changeStatus: changeTaskStatus,
+                  deleteUser: deleteUser,
+                  deleteTask: () => { }
+                }}
+                type={"user"}
+              />
+              <Paginations onPageChange={handlePageChange} pageCount={pageCount} />
+            </> : <EmptyState message="Not Yet User" img_rl="https://static.vecteezy.com/system/resources/previews/005/073/071/non_2x/user-not-found-account-not-register-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-icon-vector.jpg" />
         }
-        <Paginations onPageChange={handlePageChange} pageCount={pageCount} />
+
       </div>
 
       {userListModal && <CreateUserModal />}

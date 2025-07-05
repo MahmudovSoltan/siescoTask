@@ -84,18 +84,22 @@ const Tasks = () => {
                 <TableHeader onclick={openTaskModal} title="Task" />
                 {
                     tasks.length > 0 ?
-                        <ReusbleTable
-                            data={currentItems}
-                            type={"tasks"}
-                            onActions={{
-                                assign: assignTask,
-                                changeStatus: changeTaskStatus,
-                                deleteUser: deleteUser,
-                                deleteTask: handleDeleteTask,
-                            }}
-                        /> : <EmptyState message="Not Yet Task" />
+                        <>
+                            <ReusbleTable
+                                data={currentItems}
+                                type={"tasks"}
+                                onActions={{
+                                    assign: assignTask,
+                                    changeStatus: changeTaskStatus,
+                                    deleteUser: deleteUser,
+                                    deleteTask: handleDeleteTask,
+                                }}
+                            />
+                            <Paginations onPageChange={handlePageChange} pageCount={pageCount} />
+                        </>
+                        : <EmptyState message="Not Yet Task" />
                 }
-                <Paginations onPageChange={handlePageChange} pageCount={pageCount} />
+
             </div>
             {assignUserModal.open && (
                 <AssignUserModal<UserData>
