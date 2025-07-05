@@ -7,16 +7,13 @@ import {
   isValidTitle,
   isValidDescription,
   isValidDeadline,
-} from '../../../utils/validations';   // ✅ yeni import
+} from '../../../utils/validations';
 import { toast } from 'react-toastify';
 import type { DatePickerProps } from 'antd';
 import { DatePicker } from 'antd';
+import CreateUserModal from '../userModal/CreateUser';
+import { useShallow } from 'zustand/shallow';
 
-// const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-//   console.log(date, dateString);
-// };
-
-/* -- unchanged types & props ... -- */
 
 interface Props {
   onClose?: () => void;
@@ -32,7 +29,10 @@ interface ErrState {
 
 const TaskModal: React.FC<Props> = ({ onClose, onSave }) => {
   const { users } = useUsersStore();
-
+  const { userListModal, openUserlistModal } = useUsersStore(useShallow((state) => ({
+    userListModal: state.userListModal,
+    openUserlistModal: state.openUserlistModal
+  })))
   const [form, setForm] = useState<TaskData>({
     title: '',
     description: '',
@@ -50,13 +50,11 @@ const TaskModal: React.FC<Props> = ({ onClose, onSave }) => {
 
   const handleDateChange: DatePickerProps['onChange'] = (date) => {
     if (!date) return;
-
     setForm(prev => ({
       ...prev,
       deadline: date.format('YYYY-MM-DD'),
     }));
   };
-  console.log(form);
 
   /* ---------- Helpers ---------- */
   const validate = () => {
@@ -127,8 +125,11 @@ const TaskModal: React.FC<Props> = ({ onClose, onSave }) => {
         )}
 
         <div className={styles.usersSelection}>
-          <p>İstifadəçiləri seçin:</p>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <p>İstifadəçiləri seçin:</p>
+            <div onClick={openUserlistModal} className={styles.createButton}>+create</div>
 
+          </div>
           <div className={styles.selectedUsers}>
             {form.users.map(user => (
               <button
@@ -144,7 +145,9 @@ const TaskModal: React.FC<Props> = ({ onClose, onSave }) => {
 
           <div className={styles.usersList}>
             {users.length === 0 ? (
-              <p>İstifadəçi yoxdur</p>
+              <div className={styles.emptyWrapper}>
+                <p className={styles.emptyText}>Not yet users</p>
+              </div>
             ) : (
               users.map(user => {
                 const isSelected = form.users.some(sel => sel.id === user.id);
@@ -169,8 +172,11 @@ const TaskModal: React.FC<Props> = ({ onClose, onSave }) => {
             <p className={styles.errorText}>Ən azı bir istifadəçi seçilməlidir.</p>
           )}
         </div>
-
       </form>
+      {
+        userListModal && <CreateUserModal />
+      }
+
     </ReusableModal>
   );
 };

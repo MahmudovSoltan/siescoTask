@@ -6,9 +6,6 @@ import ReusbleTable from "../../ui/resubleTable";
 import TableHeader from "../../ui/tableHeader";
 import CreateUserModal from "../../components/modals/userModal/CreateUser";
 import AssignUserModal from "../../components/modals/assignUserModal";
-
-
-
 import type { TaskData, UserData } from "../../types";
 import { getTaskId, getTaskStatus, getTaskTitle, isTaskAssignedToUser } from "../../utils/helpers";
 import EmptyState from "../../ui/emptyState/EmptyState";

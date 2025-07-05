@@ -80,27 +80,30 @@ const AssignUserModal = <TItem,>({
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+        {
+          filteredItems.length === 0 ? <p>{title == "İstifadəçi" ? "Bütün Tapşırıqlara seçilib!" : "Bütün İstifadəçilər seçilib!"}</p> : <ul className={styles.usersList}>
 
-        <ul className={styles.usersList}>
-          {filteredItems.map((item) => {
-            const selected = isSelected(getItemKey(item));  
+            {filteredItems.map((item) => {
+              const selected = isSelected(getItemKey(item));
 
-            return (
-              <li
-                key={getItemKey(item)}
-                className={`${styles.userItem} ${selected ? styles.selected : ""}`}
-              >
-                <button onClick={() => toggleSelection(item)}>
-                  <div className={styles.userInfo}>
-                    <span className={styles.userName}>{getItemTitle(item)}</span>
-                    <span className={styles.userEmail}>{getItemSubtitle(item)}</span>
-                  </div>
-                </button>
-                {selected && <span className={styles.checkmark}>✓</span>}
-              </li>
-            );
-          })}
-        </ul>
+              return (
+                <li
+                  key={getItemKey(item)}
+                  className={`${styles.userItem} ${selected ? styles.selected : ""}`}
+                >
+                  <button onClick={() => toggleSelection(item)}>
+                    <div className={styles.userInfo}>
+                      <span className={styles.userName}>{getItemTitle(item)}</span>
+                      <span className={styles.userEmail}>{getItemSubtitle(item)}</span>
+                    </div>
+                  </button>
+                  {selected && <span className={styles.checkmark}>✓</span>}
+                </li>
+              );
+            })}
+          </ul>
+        }
+
 
         <div className={styles.modalFooter}>
           <button onClick={onclose} className={styles.cancelButton}>
