@@ -8,7 +8,7 @@ export interface TaskData {
     statusu: TaskStatus;
     users: UserData[],
     description: string;
-    deadline: string,
+    deadline: string ,
 
 }
 type assignUserModalType = {

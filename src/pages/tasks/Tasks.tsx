@@ -8,8 +8,13 @@ import AssignUserModal from "../../components/modals/assignUserModal";
 import { useUsersStore } from "../../store/users.store";
 import type { TaskData, UserData } from "../../types";
 import { getUserEmail, getUserId, getUserName, isUserAssignedToTask } from "../../utils/helpers";
-
+import EmptyState from "../../ui/emptyState/EmptyState";
+import Paginations from "../../ui/paginate";
+import { useState } from "react";
+import styles from './css/task.module.css'
 const Tasks = () => {
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const itemsPerPage = 10;
     const {
         tasks,
         taskModal,
@@ -64,20 +69,34 @@ const Tasks = () => {
         deleteTask(id);
     };
 
+
+
+
+    const offset = currentPage * itemsPerPage;
+    const currentItems = tasks.slice(offset, offset + itemsPerPage);
+    const pageCount = Math.ceil(tasks.length / itemsPerPage);
+
+    const handlePageChange = ({ selected }: { selected: number }) => {
+        setCurrentPage(selected);
+    };
     return (
         <>
-            <div>
+            <div className="table_contianer">
                 <TableHeader onclick={openTaskModal} title="Task" />
-                <ReusbleTable
-                    data={tasks}
-                    type={"tasks"}
-                    onActions={{
-                        assign: assignTask,
-                        changeStatus: changeTaskStatus,
-                        deleteUser: deleteUser,
-                        deleteTask: handleDeleteTask,
-                    }}
-                />
+                {
+                    tasks.length > 0 ?
+                        <ReusbleTable
+                            data={currentItems}
+                            type={"tasks"}
+                            onActions={{
+                                assign: assignTask,
+                                changeStatus: changeTaskStatus,
+                                deleteUser: deleteUser,
+                                deleteTask: handleDeleteTask,
+                            }}
+                        /> : <EmptyState message="Not Yet Task" />
+                }
+                <Paginations onPageChange={handlePageChange} pageCount={pageCount} />
             </div>
             {assignUserModal.open && (
                 <AssignUserModal<UserData>
@@ -93,7 +112,7 @@ const Tasks = () => {
                 />
             )}
 
-      {taskModal && <TaskModal onClose={closeTaskModal} onSave={addtasks} />}
+            {taskModal && <TaskModal onClose={closeTaskModal} onSave={addtasks} />}
         </>
     );
 };

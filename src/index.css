@@ -1,10 +1,8 @@
 /* Reset CSS */
 
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-*,
-*::before,
-*::after {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -17,90 +15,11 @@ body {
   background-color: var(--BacgrounColorBlack);
   max-width: 1440px;
   margin: 0 auto;
-  font-family: "Roboto", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
-
-/* Block-level elements */
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-main,
-nav,
-section {
-  display: block;
-}
-
-/* List elements */
-ol,
-ul {
-  list-style: none;
-}
-
-/* Links */
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* Images */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* HTML5 form elements reset */
-button,
-input,
-select,
-textarea {
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
-  background-color: transparent;
-  border: none;
+textarea{
+  resize: none !important;
   outline: none;
-  width: 100%;
-}
-
-/* Table elements */
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-caption,
-th,
-td {
-  text-align: left;
-  font-weight: normal;
-  vertical-align: middle;
-}
-
-html {
-  line-height: 1.15;
-  -webkit-text-size-adjust: 100%;
-}
-
-input:-webkit-autofill {
-  background-color: transparent !important;
-  -webkit-box-shadow: 0 0 0px 1000px var(--TEXT-color_8) inset !important;
-  color: inherit !important;
-}
-input:-webkit-autofill::first-line {
-  color: inherit !important;
-}
-
-.container {
-  max-width: 1440px;
-  padding: 0 30px;
-  margin: 0 auto;
 }
 
 :root {
@@ -132,4 +51,13 @@ input:-webkit-autofill::first-line {
   /* Accents */
   --accent-green: #0f766e;
   --notification-badge-bg: #c6f6d5;
+}
+button{
+  background-color: transparent;
+}
+.table_contianer {
+  margin: 30px 30px 30px 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding-bottom: 30px;
+  border-radius: 10px;
 }

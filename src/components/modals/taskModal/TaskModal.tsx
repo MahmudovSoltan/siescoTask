@@ -9,6 +9,12 @@ import {
   isValidDeadline,
 } from '../../../utils/validations';   // ✅ yeni import
 import { toast } from 'react-toastify';
+import type { DatePickerProps } from 'antd';
+import { DatePicker } from 'antd';
+
+// const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+//   console.log(date, dateString);
+// };
 
 /* -- unchanged types & props ... -- */
 
@@ -41,6 +47,16 @@ const TaskModal: React.FC<Props> = ({ onClose, onSave }) => {
     deadline: false,
     users: false,
   });
+
+  const handleDateChange: DatePickerProps['onChange'] = (date) => {
+    if (!date) return;
+
+    setForm(prev => ({
+      ...prev,
+      deadline: date.format('YYYY-MM-DD'),
+    }));
+  };
+  console.log(form);
 
   /* ---------- Helpers ---------- */
   const validate = () => {
@@ -105,38 +121,55 @@ const TaskModal: React.FC<Props> = ({ onClose, onSave }) => {
         {err.description && (
           <p className={styles.errorText}>Təsvir ən azı 10 simvol olmalıdır.</p>
         )}
-
-        <input
-          className={err.deadline ? styles.error : ''}
-          type="date"
-          name="deadline"
-          value={form.deadline}
-          onChange={handleChange}
-        />
+        <DatePicker onChange={handleDateChange} />
         {err.deadline && (
           <p className={styles.errorText}>Keçmiş tarix seçilə bilməz.</p>
         )}
 
         <div className={styles.usersSelection}>
           <p>İstifadəçiləri seçin:</p>
-          <div className={styles.usersList}>
-            {users.map(u => {
-              const isSelected = form.users.some(sel => sel.id === u.id);
-              return (
-                <div
-                  key={u.id}
-                  className={`${styles.userItem} ${isSelected ? styles.selected : ''}`}
-                  onClick={() => toggleUserSelection(u)}
-                >
-                  {u.name} {u.surname}
-                </div>
-              );
-            })}
+
+          <div className={styles.selectedUsers}>
+            {form.users.map(user => (
+              <button
+                key={user.id}
+                className={styles.selectedUserItem}
+                onClick={() => toggleUserSelection(user)}
+              >
+                {user.name} {user.surname}
+                <span className={styles.removeUser}>×</span>
+              </button>
+            ))}
           </div>
+
+          <div className={styles.usersList}>
+            {users.length === 0 ? (
+              <p>İstifadəçi yoxdur</p>
+            ) : (
+              users.map(user => {
+                const isSelected = form.users.some(sel => sel.id === user.id);
+                return (
+                  <div
+                    key={user.id}
+                    className={`${styles.userItem} ${isSelected ? styles.selected : ''}`}
+                    onClick={() => toggleUserSelection(user)}
+                  >
+                    <div className={styles.userInfo}>
+                      <span className={styles.userName}>{user.name} {user.surname}</span>
+                      <span className={styles.userEmail}>{user.email}</span>
+                    </div>
+                    {isSelected && <span className={styles.checkmark}>✓</span>}
+                  </div>
+                );
+              })
+            )}
+          </div>
+
           {err.users && (
             <p className={styles.errorText}>Ən azı bir istifadəçi seçilməlidir.</p>
           )}
         </div>
+
       </form>
     </ReusableModal>
   );

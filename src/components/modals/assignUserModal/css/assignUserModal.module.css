@@ -71,10 +71,35 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  max-height: 300px;
+  max-height: 200px;
   overflow-y: auto;
   border: 1px solid #eee;
   border-radius: 6px;
+  overflow: auto;
+}
+
+
+/* Scrollbar track (arxa fon) */
+.usersList::-webkit-scrollbar {
+  width: 5px;
+  background-color: #2296f4;
+}
+
+/* Scrollbar handle (scroll hissəsi) */
+.usersList::-webkit-scrollbar-thumb {
+  background-color: #2296f4;
+  border-radius: 10px;
+}
+
+/* Scrollbar handle hover zamanı */
+.usersList::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+/* Scrollbar background (boş hissə) */
+.usersList::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  border-radius: 10px;
 }
 
 .userItem {
@@ -85,7 +110,10 @@
   justify-content: space-between;
   align-items: center;
 }
-
+.userItem button{
+ width: 100%;
+ background-color: transparent;
+}
 .userItem:hover {
   background-color: #f5f5f5;
 }
@@ -126,6 +154,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
+  width: 100%;
 }
 
 .submitButton {
@@ -135,6 +164,7 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+    width: 100%;
 }
 
 .submitButton:hover {

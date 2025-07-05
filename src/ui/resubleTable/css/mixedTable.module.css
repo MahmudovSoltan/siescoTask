@@ -1,31 +1,30 @@
 .wrapper {
-  padding-left: 320px;
+  padding-left: 30px;
   padding-right: 20px;
   width: 100%;
-  min-height: 80vh;
-
-  overflow-x: auto;
+  min-height: min-content;
   font-family: sans-serif;
   margin-top: 20px;
+  margin-bottom: 30px;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */
 }
 
 th {
   text-align: left;
-  padding: 12px;
+  padding: 15px 12px;
   background: #f3f4f6;
   border-bottom: 2px solid #e5e7eb;
   font-weight: 600;
 }
 
-tr:nth-child(even) {
+/* tr:nth-child(even) {
   background: #fafafa;
-}
+} */
 
 tr:hover {
   background: #f0f0f0;
@@ -103,6 +102,7 @@ td {
 .dropdown_btn {
   cursor: pointer;
   text-align: left;
+  background-color: transparent;
 }
 .dropdown_options {
   padding: 8px 12px;

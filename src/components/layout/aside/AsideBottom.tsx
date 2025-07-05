@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./css/aside.module.css";
 import { FaRegUserCircle } from "react-icons/fa";
-import { IoChevronDown } from "react-icons/io5"; // kiçik ox ikonu
 import { CiLogout } from "react-icons/ci";
 
 const AsideBottom = () => {
@@ -50,16 +49,12 @@ const AsideBottom = () => {
 
         <div className={styles.info}>
           <h4>{name + " " + surname}</h4>
-          <p>{role}</p>
+          <p>{role.toUpperCase()}</p>
         </div>
 
-        <IoChevronDown className={styles.chevron} />
-        {isOpen && (
-          <ul className={styles.dropdown}>
-            <li onClick={handleLogOut}><CiLogout />
-              Logout</li>
-          </ul>
-        )}
+        <ul className={styles.dropdown}>
+          <li onClick={handleLogOut}><CiLogout size={24} color="white" /></li>
+        </ul>
       </button>
     </div>
   );

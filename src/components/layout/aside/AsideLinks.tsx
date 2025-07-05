@@ -14,7 +14,7 @@ const AsideLinks = ({ handleChooseTab, currentTab }: AsidePropsTYpe) => {
                 <p>Tasks</p>
             </li>
             <li onClick={() => handleChooseTabFunc("Users")} className={`${currentTab === "Users" && styles.active_link}`}>
-                <FiUsers size={20} /><p>Useers</p>
+                <FiUsers size={20} /><p>Users</p>
             </li>
         </ul>
     )

@@ -83,7 +83,7 @@ const AssignUserModal = <TItem,>({
 
         <ul className={styles.usersList}>
           {filteredItems.map((item) => {
-            const selected = isSelected(getItemKey(item));
+            const selected = isSelected(getItemKey(item));  
 
             return (
               <li

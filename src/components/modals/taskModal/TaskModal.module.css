@@ -7,40 +7,103 @@
   margin-top: 15px;
 }
 
-.usersList {
+.selectedUsers {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  max-height: 120px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  padding: 8px;
-  border-radius: 6px;
   margin-bottom: 15px;
 }
 
-.userItem {
-  padding: 6px 12px;
-  border: 1px solid #aaa;
-  border-radius: 5px;
+.selectedUserItem {
+  background-color: #e3f2fd;
+  border: 1px solid #bbdefb;
+  border-radius: 15px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
   cursor: pointer;
-  user-select: none;
+  width: max-content;
+}
+
+.selectedUserItem:hover {
+  background-color: #bbdefb;
+}
+
+.removeUser {
+  margin-left: 5px;
+  font-size: 1rem;
+}
+
+.usersList {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 4px 0;
+}
+
+/* Scrollbar */
+.usersList::-webkit-scrollbar {
+  width: 5px;
+}
+
+.usersList::-webkit-scrollbar-thumb {
+  background-color: #2296f4;
+  border-radius: 10px;
+}
+
+.usersList::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.usersList::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  border-radius: 10px;
+}
+
+.userItem {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .userItem:hover {
-  background-color: #f0f0f0;
+  background-color: #f5f5f5;
 }
 
-.selected {
-  background-color: #007bff;
-  color: white;
-  border-color: #007bff;
+.userItem.selected {
+  background-color: #e3f2fd;
 }
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  font-weight: 500;
+}
+
+.userEmail {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.checkmark {
+  color: #2196f3;
+  font-weight: bold;
+}
+
 .error {
   border-color: red;
 }
+
 .errorText {
   color: red;
   font-size: 12px;
-  margin: -8px 0 8px;
+  margin: 10px 0;
 }

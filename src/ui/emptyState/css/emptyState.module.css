@@ -1,0 +1,24 @@
+/* ui/emptyState.module.css */
+.emptyContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  min-height: 150px;
+  padding-left: 300px;
+}
+
+.emptyBox {
+  text-align: center;
+  color: black;
+}
+img{
+    max-height:63vh ;
+}
+.message {
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
