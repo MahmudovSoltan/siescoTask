@@ -1,6 +1,6 @@
 // pages/Login.tsx
 import React, { useState } from 'react';
-import styles from './css/Login.module.css';
+import styles from './css/login.module.css';
 import { useNavigate } from 'react-router-dom';
 import { isValidEmail, isValidPassword } from '../../utils/validations';
 import { useAuthStore } from '../../store/authStore';
