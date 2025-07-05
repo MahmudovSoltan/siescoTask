@@ -1,7 +1,7 @@
 import { IoIosAdd } from 'react-icons/io'
 import styles from './css/button.module.css'
 interface IButton {
-    onclick?: () => void,
+    onclick?: (e: React.FormEvent) => void,
     title: string,
     bgColor: string,
     variant?: string

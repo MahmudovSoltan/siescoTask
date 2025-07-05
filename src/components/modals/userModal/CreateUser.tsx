@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import styles from "./css/createuser.module.css";          // istəsən köhnə stepper.css‑dən kopyala
-import { IoMdClose } from 'react-icons/io';
 import { useUsersStore } from '../../../store/users.store';
 import { isValidEmail, isValidName, isValidPassword } from '../../../utils/validations';
-import Button from '../../../ui/button';
 import ReusableModal from '../../../ui/reusbleModal';
 import { toast } from 'react-toastify';
 // modalı bağlamaq üçün

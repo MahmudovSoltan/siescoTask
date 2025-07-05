@@ -10,7 +10,7 @@ export const getUserId = (user: UserData) => user.id;
 export const getUserName = (user: UserData) => user.name;
 export const getUserEmail = (user: UserData) => user.email;
 
-export const isTaskAssignedToUser = (user: UserData | undefined) =>
+export const isTaskAssignedToUser = () =>
   (task: TaskData, userId: number | null): boolean => {
     return task.users.some((u) => u.id === userId);
   };

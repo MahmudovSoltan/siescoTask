@@ -45,8 +45,12 @@ const Users = () => {
   );
 
   // Assign Task düyməsi kliklənəndə modal açılır
-  const assignTask = (user: UserData) => {
-    openAssignModal(user.id);
+  const assignTask = (user: UserData|TaskData) => {
+    if (user.id) {
+      openAssignModal(user.id);
+      
+    }
+  
   };
 
   const changeTaskStatus = (task: TaskData, newStatus: string) => {
@@ -57,9 +61,7 @@ const Users = () => {
     deleteUserFunc(userId);
   };
 
-  const resetPassword = (user: UserData) => {
-    alert(`Resetting password for: ${user.email}`);
-  };
+
 
   const selectedUser = users.find((u) => u.id === assignUserModal.taskId); // taskId burada əslində `userId` kimi istifadə olunur
 
@@ -72,8 +74,8 @@ const Users = () => {
           onActions={{
             assign: assignTask,
             changeStatus: changeTaskStatus,
-            resetPassword: resetPassword,
             deleteUser: deleteUser,
+            deleteTask:()=>{}
           }}
           type={"user"}
         />
@@ -88,7 +90,7 @@ const Users = () => {
           items={tasks}
           onclose={closeAssignModal}
           onSave={addTasksToUser}
-          alreadyLinked={isTaskAssignedToUser(selectedUser)}
+          alreadyLinked={isTaskAssignedToUser()}
           getItemKey={(task) => getTaskId(task) ?? 0}
           getItemTitle={getTaskTitle}
           getItemSubtitle={getTaskStatus}

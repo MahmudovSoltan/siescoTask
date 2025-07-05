@@ -40,11 +40,11 @@ const Tasks = () => {
 
     const { users } = useUsersStore();
 
-    const assignTask = (task: TaskData) => {
-        if (typeof task.id === "number") {
+    const assignTask = (task: TaskData | UserData) => {
+        if ("users" in task && typeof task.id === "number") {
             openAssignModal(task.id);
         } else {
-            console.error("Task id is undefined or null");
+            console.error("Provided object is not a TaskData or task id is invalid");
         }
     };
 
@@ -52,8 +52,10 @@ const Tasks = () => {
         console.log(task, newStatus);
     };
 
-    const deleteUser = (userId: number, taskId: number) => {
-        removeAsignUser(userId, taskId);
+    const deleteUser = (userId: number, taskId?: number) => {
+        if (typeof taskId === "number") {
+            removeAsignUser(userId, taskId);
+        }
     };
 
 
