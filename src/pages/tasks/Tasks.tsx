@@ -12,7 +12,6 @@ import EmptyState from "../../ui/emptyState/EmptyState";
 import Paginations from "../../ui/paginate";
 import { useState } from "react";
 import { useAuthStore } from "../../store/authStore";
-import Item from "antd/es/list/Item";
 const Tasks = () => {
     const [currentPage, setCurrentPage] = useState<number>(0);
     const itemsPerPage = 10;
