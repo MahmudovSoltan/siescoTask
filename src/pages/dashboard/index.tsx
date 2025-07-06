@@ -1,10 +1,11 @@
 import DashBoardBody from "../../components/dashboard/DashBoardBody"
 import Aside from "../../components/layout/aside/Aside"
 import { useState } from "react"
+import { useAuthStore } from "../../store/authStore"
 const Dashboard = () => {
-    const tab = localStorage.getItem("tab")
-    const [currentTab, setCurentTab] = useState<string>( tab||"Users")
-
+    const { user } = useAuthStore()
+    const tab = user?.role === "admin" ? localStorage.getItem("tab") : "Tasks"
+    const [currentTab, setCurentTab] = useState<string>(tab || "Users")
     const handleChooseTab = (tab: string) => {
         setCurentTab(tab)
     }

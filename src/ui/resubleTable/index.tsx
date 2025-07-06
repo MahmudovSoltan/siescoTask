@@ -3,6 +3,7 @@ import styles from './css/mixedTable.module.css';
 import { FaChevronDown } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import type { TaskData, UserData } from '../../types';
+import { useAuthStore } from '../../store/authStore';
 
 interface ActionsType {
   assign: (task: TaskData | UserData) => void;
@@ -20,6 +21,8 @@ interface PropsType {
 export default function ReusbleTable({ data, onActions, type }: PropsType) {
   const [menuRowId, setMenuRowId] = useState<number | null>(null);
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
+  const { user } = useAuthStore()
+  const disable = user?.role === 'user'
 
   const toggleDropdown = (id: number | null) => {
     setOpenDropdownId((prev) => (prev === id ? null : id));
@@ -74,15 +77,18 @@ export default function ReusbleTable({ data, onActions, type }: PropsType) {
                       className={styles.dropdown_options}
                     >
                       {user.name}
-                      <button
-                        onClick={() => {
-                          if (typeof user.id === 'number' && typeof task.id === 'number') {
-                            onActions.deleteUser(user.id, task.id);
-                          }
-                        }}
-                      >
-                        <MdDelete />
-                      </button>
+                      {
+                        !disable && <button
+                          onClick={() => {
+                            if (typeof user.id === 'number' && typeof task.id === 'number') {
+                              onActions.deleteUser(user.id, task.id);
+                            }
+                          }}
+                        >
+                          <MdDelete />
+                        </button>
+                      }
+
                     </li>
                   ))}
                 </ul>
@@ -129,10 +135,10 @@ export default function ReusbleTable({ data, onActions, type }: PropsType) {
             <tr key={row.id}>
               {renderColumns(row)}
               <td className={styles.actionsCell}>
-                <button className={styles.actionButton} onClick={() => toggleMenu(typeof row.id === 'number' ? row.id : null)}>⋯</button>
+                <button disabled={disable} className={styles.actionButton} onClick={() => toggleMenu(typeof row.id === 'number' ? row.id : null)}>⋯</button>
                 {menuRowId === row.id && (
                   <ul className={styles.dropdown} onMouseLeave={() => setMenuRowId(null)}>
-                    {type === 'tasks' && (
+                    {type === 'tasks' && !disable && (
                       <>
                         <li><button onClick={() => onActions.assign(row)}>Assign</button></li>
                         <li><button onClick={() => { const id = (row as TaskData).id; if (typeof id === 'number') onActions.deleteTask(id); }}>Delete <MdDelete /></button></li>

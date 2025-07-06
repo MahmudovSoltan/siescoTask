@@ -11,6 +11,8 @@ import { getUserEmail, getUserId, getUserName, isUserAssignedToTask } from "../.
 import EmptyState from "../../ui/emptyState/EmptyState";
 import Paginations from "../../ui/paginate";
 import { useState } from "react";
+import { useAuthStore } from "../../store/authStore";
+import Item from "antd/es/list/Item";
 const Tasks = () => {
     const [currentPage, setCurrentPage] = useState<number>(0);
     const itemsPerPage = 10;
@@ -43,7 +45,14 @@ const Tasks = () => {
     );
 
     const { users } = useUsersStore();
+    const { user: user2 } = useAuthStore()
+    const assignedTasks = tasks.filter((task) =>
+        task.users.some((user) => user.id === user2?.id)
+    );
+    const currentTasks = user2?.role === 'admin'? tasks :assignedTasks
 
+
+    
     const assignTask = (task: TaskData | UserData) => {
         if ("users" in task && typeof task.id === "number") {
             openAssignModal(task.id);
@@ -67,23 +76,27 @@ const Tasks = () => {
     const handleDeleteTask = (id: number) => {
         deleteTask(id);
     };
-
-
-
-
     const offset = currentPage * itemsPerPage;
-    const currentItems = tasks.slice(offset, offset + itemsPerPage);
-    const pageCount = Math.ceil(tasks.length / itemsPerPage);
+    const currentItems = currentTasks.slice(offset, offset + itemsPerPage);
+    const pageCount = Math.ceil(currentTasks.length / itemsPerPage);
 
     const handlePageChange = ({ selected }: { selected: number }) => {
         setCurrentPage(selected);
     };
+
+
+
+
+
+
+
     return (
         <>
             <div className="table_contianer">
+
                 <TableHeader onclick={openTaskModal} title="Task" />
                 {
-                    tasks.length > 0 ?
+                    currentTasks.length > 0 ?
                         <>
                             <ReusbleTable
                                 data={currentItems}

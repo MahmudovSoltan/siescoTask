@@ -6,6 +6,7 @@ import { isValidEmail, isValidPassword } from '../../utils/validations';
 import { useAuthStore } from '../../store/authStore';
 import { useShallow } from 'zustand/shallow';
 import { toast } from 'react-toastify';
+import { ROUTE } from '../../constants/Routes';
 
 const Login = () => {
   const [data, setData] = useState({ email: '', password: '' });
@@ -27,7 +28,7 @@ const Login = () => {
     if (!Object.values(newError).includes(true)) {
       const success = login(data);
       if (success) {
-        navigate('/dashboard')
+        navigate(ROUTE.DASHBOARD)
         toast.success("Succses login")
       } else {
         toast.error("Something is wrong")
