@@ -2,13 +2,13 @@ import type { UserData } from "./users.types";
 
 type TaskStatus = 'todo' | 'inProgress' | 'done';
 export interface TaskData {
-    id?: number|null;
+    id?: number | null;
     title: string;
     tasks?: string;
     statusu: TaskStatus;
     users: UserData[],
     description: string;
-    deadline: string ,
+    deadline: string,
 
 }
 type assignUserModalType = {
@@ -28,6 +28,6 @@ export interface TaskState {
     closeAssignModal: () => void,
     addAsignUser: (assignTaskid: number | null, selectUsers: UserData[]) => void,
     deleteTask: (taskId: number) => void,
-    // assignUsersToTask: (taskId: number | null, users: UserData[]) => void;
-    setTasks: (tasks: TaskData[]) => void
+    setTasks: (tasks: TaskData[]) => void,
+    updateTaskStatus: (taskId: number, newStatus: string) => void
 }

@@ -45,12 +45,13 @@ export default function ReusbleTable({ data, onActions, type }: PropsType) {
       );
     } else if (type === 'tasks') {
       const task = row as TaskData;
+      const bgColor = task.statusu === "done" ? "#ffab01" : task.statusu === 'todo' ? "#00c4fb" : task.statusu === "inProgress" ? "#49d1e2" : "#75d900"
       return (
         <>
           <td>{task.title}</td>
           <td>{task.description}</td>
           <td>{new Date(task.deadline).toLocaleDateString()}</td>
-          <td>{task.statusu}</td>
+          <td><span style={{ backgroundColor: bgColor }} className={styles.badge}>{task.statusu}</span></td>
           <td>
             <div className={styles.dropdown_container}>
               <button
@@ -119,7 +120,10 @@ export default function ReusbleTable({ data, onActions, type }: PropsType) {
           <th>Deadline</th>
           <th>Status</th>
           <th>Users</th>
-          <th>Actions</th>
+          {
+               !disable &&     <th>Actions</th>
+          }
+       
         </tr>
       );
     }
@@ -135,10 +139,13 @@ export default function ReusbleTable({ data, onActions, type }: PropsType) {
             <tr key={row.id}>
               {renderColumns(row)}
               <td className={styles.actionsCell}>
-                <button disabled={disable} className={styles.actionButton} onClick={() => toggleMenu(typeof row.id === 'number' ? row.id : null)}>⋯</button>
+                {
+                  !disable && <button disabled={disable} className={styles.actionButton} onClick={() => toggleMenu(typeof row.id === 'number' ? row.id : null)}>⋯</button>
+                }
+
                 {menuRowId === row.id && (
                   <ul className={styles.dropdown} onMouseLeave={() => setMenuRowId(null)}>
-                    {type === 'tasks' && !disable && (
+                    {type === 'tasks' && (
                       <>
                         <li><button onClick={() => onActions.assign(row)}>Assign</button></li>
                         <li><button onClick={() => { const id = (row as TaskData).id; if (typeof id === 'number') onActions.deleteTask(id); }}>Delete <MdDelete /></button></li>

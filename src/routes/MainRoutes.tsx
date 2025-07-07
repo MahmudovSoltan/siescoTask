@@ -5,6 +5,7 @@ import { ROUTE } from "../constants/Routes"
 import Register from "../pages/register/Register"
 import { ToastContainer } from "react-toastify"
 import { useAuthStore } from "../store/authStore"
+import Board from "../pages/planing"
 
 const MainRoutes = () => {
   const { user } = useAuthStore();
@@ -28,6 +29,10 @@ const MainRoutes = () => {
         <Route
           path={ROUTE.LOGIN}
           element={user ? <Navigate to={ROUTE.DASHBOARD} /> : <Login />}
+        />
+        <Route
+          path={ROUTE.PLANING}
+          element={user ? <Board /> : <Login />}
         />
         <Route path={ROUTE.REGISTER} element={<Register />} />
       </Routes>

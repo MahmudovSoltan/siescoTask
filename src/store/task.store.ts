@@ -77,5 +77,14 @@ export const useTaskStore = create<TaskState>((set, get) => ({
         set({ tasks: filetrTask });
     }
     ,
+    updateTaskStatus: (taskId: number, newStatus: string) => {
+        const { tasks } = get();
+        const updatedTasks = tasks.map(task =>
+            task.id === taskId ? { ...task, status: newStatus } : task
+        );
+
+        localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+        set({ tasks: updatedTasks });
+    }
 
 }));

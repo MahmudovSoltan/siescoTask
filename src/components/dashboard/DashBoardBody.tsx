@@ -1,6 +1,7 @@
 
 import Users from '../../pages/users/Users'
 import Tasks from '../../pages/tasks/Tasks'
+import Planing from '../../pages/planing';
 const tabs = [
   {
     title: "Users",
@@ -9,6 +10,10 @@ const tabs = [
   {
     title: "Tasks",
     component: Tasks
+  },
+  {
+    title: "Planning",
+    component: Planing
   }
 ]
 interface DashBoardBodyProps {

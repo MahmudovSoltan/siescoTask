@@ -1,0 +1,36 @@
+/* Planing.module.css */
+.board {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  margin: 30px 30px 30px 270px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding-bottom: 30px;
+  padding-top: 30px;
+  border-radius: 10px;
+  height: 100%;
+}
+
+.column {
+  width: 250px;
+  min-height: 400px;
+  border-radius: 8px;
+  padding: 0 8px 16px; /* header üçün yuxarı padding‑ə ehtiyac yoxdur */
+  display: flex;
+  flex-direction: column;
+}
+
+.tasksWrapper {
+  margin-top: 8px; /* header‑dən sonra boşluq */
+  flex: 1;
+}
+
+.taskCard {
+  user-select: none;
+  padding: 12px;
+  margin-bottom: 8px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: grab;
+}

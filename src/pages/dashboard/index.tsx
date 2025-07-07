@@ -4,7 +4,8 @@ import { useState } from "react"
 import { useAuthStore } from "../../store/authStore"
 const Dashboard = () => {
     const { user } = useAuthStore()
-    const tab = user?.role === "admin" ? localStorage.getItem("tab") : "Tasks"
+    const usertab = localStorage.getItem("tab")
+    const tab = user?.role === "admin" ? localStorage.getItem("tab") : usertab == "Users" ? "Tasks" : usertab
     const [currentTab, setCurentTab] = useState<string>(tab || "Users")
     const handleChooseTab = (tab: string) => {
         setCurentTab(tab)

@@ -7,8 +7,8 @@ const AsideLinks = ({ handleChooseTab, currentTab }: AsidePropsTYpe) => {
     const handleChooseTabFunc = (tab: string) => {
         localStorage.setItem("tab", tab)
         handleChooseTab(tab)
+        window.location.reload()
     }
-
     const { user } = useAuthStore()
 
 
@@ -19,10 +19,15 @@ const AsideLinks = ({ handleChooseTab, currentTab }: AsidePropsTYpe) => {
                 <p>Tasks</p>
             </li>
             {
-                user?.role !== "user" && <li onClick={() => handleChooseTabFunc("Users")} className={`${currentTab === "Users" && styles.active_link}`}>
+                user?.role !== "user" ? <li onClick={() => handleChooseTabFunc("Users")} className={`${currentTab === "Users" && styles.active_link}`}>
                     <FiUsers size={20} /><p>Users</p>
                 </li>
+                    :
+                    <li onClick={() => handleChooseTabFunc("Planning")} className={`${currentTab === "Planning" && styles.active_link}`}>
+                        Planing
+                    </li>
             }
+
 
         </ul>
     )
