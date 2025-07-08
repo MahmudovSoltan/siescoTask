@@ -45,7 +45,7 @@ export default function ReusbleTable({ data, onActions, type }: PropsType) {
       );
     } else if (type === 'tasks') {
       const task = row as TaskData;
-      const bgColor = task.statusu === "done" ? "#ffab01" : task.statusu === 'todo' ? "#00c4fb" : task.statusu === "inProgress" ? "#49d1e2" : "#75d900"
+      const bgColor = task?.statusu === "Done" ? "#ffab01" : task.statusu === 'todo' ? "#00c4fb" : task?.statusu === "In progress" ? "#49d1e2" : "#75d900"
       return (
         <>
           <td>{task.title}</td>

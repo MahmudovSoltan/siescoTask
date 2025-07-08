@@ -52,7 +52,6 @@ const AssignUserModal = <TItem,>({
     toast.success("Successful Add")
     onclose();
   };
-  console.log(title);
 
   return (
     <div className={styles.overlay}>

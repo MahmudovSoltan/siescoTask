@@ -19,7 +19,9 @@ interface PropsType {
 
 const Columun = ({ columun, tasks }: PropsType) => {
   const { setNodeRef, isOver } = useDroppable({ id: columun.id });
-
+  console.log(columun,'id');
+   console.log("click");
+   
   return (
     <div className={styles.columun_container}>
       <PlaningHeader title={columun.title} />

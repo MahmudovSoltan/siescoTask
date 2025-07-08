@@ -23,7 +23,7 @@ const AsideBottom = () => {
     navigate("/");
   };
 
- 
+
 
   return (
     <div className={styles.bottom_container}>
@@ -35,7 +35,7 @@ const AsideBottom = () => {
         </div>
 
         <div className={styles.info}>
-          <h4>{name + " " + surname}</h4>
+          <h4>{name.toUpperCase() + " " + surname.toUpperCase()}</h4>
           <p>{role.toUpperCase()}</p>
         </div>
 

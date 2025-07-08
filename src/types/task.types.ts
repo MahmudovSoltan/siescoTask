@@ -1,6 +1,6 @@
 import type { UserData } from "./users.types";
 
- export type TaskStatus = 'todo' | 'inProgress' | 'done'|"In_review";
+ export type TaskStatus = 'todo' | 'In progress' | 'Done'|"In review";
 export interface TaskData {
     id?: number | null;
     title: string;

@@ -48,7 +48,6 @@ const CreateUserModal = () => {
     setErr(nextErr);
     return !Object.values(nextErr).includes(true);
   };
-  console.log(users);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

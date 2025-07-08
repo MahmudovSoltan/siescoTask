@@ -50,7 +50,6 @@ const Tasks = () => {
     );
     const currentTasks = user2?.role === 'admin'? tasks :assignedTasks
 
-  console.log("tasks");
   
     
     const assignTask = (task: TaskData | UserData) => {
