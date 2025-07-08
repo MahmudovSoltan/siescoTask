@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { TaskData, TaskState, UserData } from '../types';
+import type { TaskData, TaskState, TaskStatus, UserData } from '../types';
 
 
 export const useTaskStore = create<TaskState>((set, get) => ({
@@ -77,11 +77,13 @@ export const useTaskStore = create<TaskState>((set, get) => ({
         set({ tasks: filetrTask });
     }
     ,
-    updateTaskStatus: (taskId: number, newStatus: string) => {
+    updateTaskStatus: (taskId: number, newStatus: TaskStatus) => {
+
         const { tasks } = get();
         const updatedTasks = tasks.map(task =>
-            task.id === taskId ? { ...task, status: newStatus } : task
+            task.id === taskId ? { ...task, statusu: newStatus } : task
         );
+        console.log(updatedTasks);
 
         localStorage.setItem("tasks", JSON.stringify(updatedTasks));
         set({ tasks: updatedTasks });

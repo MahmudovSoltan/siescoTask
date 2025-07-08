@@ -20,4 +20,4 @@ export const getTaskId = (task: TaskData) => task.id;
 
 export const getTaskTitle = (task: TaskData) => task.title;
 
-export const getTaskStatus = (task: TaskData) => task.statusu;
+export const getTaskStatus = (task: TaskData) => task.statusu || "";

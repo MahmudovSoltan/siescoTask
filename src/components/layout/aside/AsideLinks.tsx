@@ -7,7 +7,7 @@ const AsideLinks = ({ handleChooseTab, currentTab }: AsidePropsTYpe) => {
     const handleChooseTabFunc = (tab: string) => {
         localStorage.setItem("tab", tab)
         handleChooseTab(tab)
-        window.location.reload()
+        // window.location.reload()
     }
     const { user } = useAuthStore()
 

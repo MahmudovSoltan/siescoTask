@@ -1,35 +1,24 @@
 import React from "react";
-import styles from "./css/planingheader.module.css";
+import styles from "./css/planingcomponent.module.css";
 
 interface PlaningHeaderProps {
-  title: string;
-  count: number;
-  color?: string;
-  onAdd?: () => void;
+  title: "TO DO" | "IN PROGRESS" | "DONE" | "In_review"; // və ya sadəcə string
 }
 
-
-
 const colorMap: Record<string, string> = {
-  blue: "#00c4fb",
-  lightblue: "#49d1e2",
-  green: "#75d900",
-  orange: "#ffab01",
+  "TO DO": "#00c4fb",
+  "IN PROGRESS": "#49d1e2",
+  "DONE": "#ffab01",
+  "In Review": "#75d900"
 };
 
-const PlaningHeader: React.FC<PlaningHeaderProps> = ({
-  title,
-  count,
-  color = "blue",
-}) => {
+const PlaningHeader: React.FC<PlaningHeaderProps> = ({ title }) => {
   return (
     <div
-      className={`${styles.header} ${title === 'Done' && styles.done_header}`}
-      style={{ backgroundColor: colorMap[color] || colorMap.blue}}
+      className={`${styles.header} ${title === "DONE" && styles.done_header}`}
+      style={{ backgroundColor: colorMap[title] || "#ccc" }} // fallback rəng
     >
-      <span className={styles.title}>
-        {title} ({count})
-      </span>
+      <span className={styles.title}>{title}</span>
     </div>
   );
 };

@@ -1,0 +1,53 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  color: white;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  clip-path: polygon(0% 0%, 93% 0%, 100% 50%, 93% 100%, 0% 100%);
+}
+.done_header{
+    clip-path: none;
+    border-radius: 0;
+}
+.title {
+  font-weight: 600;
+  font-size: 14px;
+}
+.columun_container {
+  background-color: white;
+  border-radius: 16px;
+  padding: 12px;
+  width: 260px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.columun_content {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: background-color 0.2s ease;
+  min-height: 80px;
+  height: 100%;
+}
+
+.task_card {
+  padding: 10px 14px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.task_card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
