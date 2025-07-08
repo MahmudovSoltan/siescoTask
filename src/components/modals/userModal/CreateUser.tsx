@@ -36,7 +36,7 @@ const CreateUserModal = () => {
     password: false,
   });
 
-  const { addUser, users, closeUserlistModal } = useUsersStore();
+  const { addUser,closeUserlistModal } = useUsersStore();
 
   const validate = () => {
     const nextErr: ErrState = {
