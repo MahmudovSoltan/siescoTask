@@ -1,4 +1,4 @@
-// TaskCard.tsx
+
 import { useDraggable } from "@dnd-kit/core";
 import styles from './css/planingcomponent.module.css'
 import type { TaskData } from "../../types";
@@ -11,7 +11,7 @@ interface TaskPropsType {
 
 
 const TaskCard = ({ task }: TaskPropsType) => {
-  console.log(task);
+
 
   const { setNodeRef, listeners, attributes, transform } = useDraggable({
     id: task.id ?? `task-${Math.random()}`,

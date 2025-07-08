@@ -52,6 +52,7 @@ const AssignUserModal = <TItem,>({
     toast.success("Successful Add")
     onclose();
   };
+  console.log(title);
 
   return (
     <div className={styles.overlay}>
@@ -81,7 +82,7 @@ const AssignUserModal = <TItem,>({
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         {
-          filteredItems.length === 0 ? <p>{title == "İstifadəçi" ? "Bütün Tapşırıqlara seçilib!" : "Bütün İstifadəçilər seçilib!"}</p> : <ul className={styles.usersList}>
+          filteredItems.length === 0 ? <p>{title !== "İstifadəçi seç" ? "Bütün Tapşırıqlara seçilib!" : "Bütün İstifadəçilər seçilib!"}</p> : <ul className={styles.usersList}>
 
             {filteredItems.map((item) => {
               const selected = isSelected(getItemKey(item));
