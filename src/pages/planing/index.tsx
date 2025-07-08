@@ -7,7 +7,7 @@ import { DndContext, PointerSensor, useSensor, useSensors, type DragEndEvent } f
 const COLUMNS: ColumunType[] = [
   { id: "todo", title: "TO DO" },
   { id: "inProgress", title: "IN PROGRESS" },
-  { id: "In_review", title: "In_review" },
+  { id: "In_review", title: "In Review" },
   { id: "done", title: "DONE" },
 ];
 const Planing = () => {

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./css/planingcomponent.module.css";
 
 interface PlaningHeaderProps {
-  title: "TO DO" | "IN PROGRESS" | "DONE" | "In_review"; // və ya sadəcə string
+  title: "TO DO" | "IN PROGRESS" | "DONE" | "In Review"; // və ya sadəcə string
 }
 
 const colorMap: Record<string, string> = {

@@ -5,7 +5,7 @@ import PlaningHeader from "./PlaningHeader";
 import styles from './css/planingcomponent.module.css';
 import type { TaskData } from "../../types";
 
-export type Ititle = "TO DO" | "IN PROGRESS" | "DONE" | "In_review";
+export type Ititle = "TO DO" | "IN PROGRESS" | "DONE" | "In Review";
 
 export interface ColumunType {
   id: string;
